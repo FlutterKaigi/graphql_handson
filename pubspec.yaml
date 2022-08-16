@@ -9,9 +9,12 @@ environment:
   sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   flutter:
     sdk: flutter
+  graphql_flutter: ^5.1.0
+  graphql: ^5.1.1
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
