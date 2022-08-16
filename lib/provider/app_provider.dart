@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AppProvider extends HookConsumerWidget {
-  AppProvider({super.key, required this.child});
+class AppProvider extends StatelessWidget {
+  const AppProvider({super.key, required this.child});
 
-  Widget child;
+  final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     /// 環境変数を利用する
     const gitHubToken = String.fromEnvironment('GITHUB_TOKEN');
 
