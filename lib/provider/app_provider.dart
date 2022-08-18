@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class AppProvider extends StatelessWidget {
@@ -9,7 +10,7 @@ class AppProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// 環境変数を利用する
-    const gitHubToken = String.fromEnvironment('GITHUB_TOKEN');
+    final String? gitHubToken = dotenv.env['GITHUB_TOKEN'];
 
     final HttpLink httpLink = HttpLink(
       'https://api.github.com/graphql',
