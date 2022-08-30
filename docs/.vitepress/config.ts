@@ -122,6 +122,15 @@ export default {
     docsDir: `docs`,
     nav: [
       {
+        text: `アウトライン`,
+        items: [
+          { text: `Flutter で環境変数を取り扱う`, link: `/outline/1_environment-variables.md` },
+          { text: `GraphQL クライアントを選定する`, link: `/outline/2_graphql-client.md` },
+          { text: `repository 一覧をフェッチする`, link: `/outline/3_fetch-repositories.md` },
+          { text: `issue 一覧をフェッチする`, link: `/outline/4_fetch-issues.md` }
+        ]
+      },
+      {
         text: `Past Kaigis`,
         items: [
           { text: `FlutterKaigi 2022`, link: `https://flutterkaigi-2022-workshop.netlify.app/` },
