@@ -1,8 +1,16 @@
+/// アカウント ID を取得する
+String basicQuery = """
+  query {
+    viewer {
+      login
+    }
+  }
+""";
+
 /// リポジトリ一覧を取得する
 String repositoriesQuery = """
   query {
     viewer {
-      login
       repositories(last: 10) {
         nodes {
           id
@@ -20,9 +28,6 @@ String repositoriesQuery = """
 /// 個別にユーザ名とリポジトリ名を設定する
 String issuesQuery = """
   query {
-    viewer {
-      login
-    }
     repository(name: "_graphql_handson", owner: "FlutterKaigi") {
       description
       createdAt
