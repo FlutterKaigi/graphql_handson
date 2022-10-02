@@ -33,7 +33,7 @@ class MyTopPage extends StatelessWidget {
 
         List? items = (showRepository && !showIssue)
             ? (result.data?['viewer']?['repositories']?['nodes'])
-            : (result.data?['viewer']?['repository']?['issues']?['nodes']);
+            : (result.data?['repository']?['issues']?['nodes']);
 
         if (items == null) {
           return const Text('No issues');
