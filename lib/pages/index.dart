@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:graphql_handson/features.dart';
-import 'package:graphql_handson/graphql/query.dart';
+import 'package:graphql_handson/repositories/github_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyTopPage extends StatelessWidget {
@@ -10,56 +9,47 @@ class MyTopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Query(
-      options: QueryOptions(
-        document: gql(
-            (showRepository && !showIssue) ? repositoriesQuery : issuesQuery),
-        variables: const {
-          //
+      child: FutureBuilder<dynamic>(
+        future: fetchRepositories(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return const Text('Loading');
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return Center(child: Text('Error : ${snapshot.error}'));
+              }
+
+              if (snapshot.data == null) {
+                return const Text('No issues');
+              }
+
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    final item = snapshot.data[index];
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: CardItem(
+                        title: (showRepository && !showIssue)
+                            ? item['name']
+                            : item['title'] ?? '',
+                        message: (showRepository && !showIssue)
+                            ? ''
+                            : item['description'] ?? '',
+                        url: item['url'] ?? '',
+                        updatedAt: item['updatedAt'] ?? '',
+                      ),
+                    );
+                  });
+            // return Center(child: Text(snapshot.data.data.toString()));
+          }
         },
-        fetchPolicy: FetchPolicy.noCache,
-        cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-        pollInterval: const Duration(seconds: 10),
       ),
-      builder: (QueryResult result,
-          {VoidCallback? refetch, FetchMore? fetchMore}) {
-        if (result.hasException) {
-          return Text(result.exception.toString());
-        }
-
-        if (result.isLoading) {
-          return const Text('Loading');
-        }
-
-        List? items = (showRepository && !showIssue)
-            ? (result.data?['viewer']?['repositories']?['nodes'])
-            : (result.data?['repository']?['issues']?['nodes']);
-
-        if (items == null) {
-          return const Text('No issues');
-        }
-
-        return ListView.builder(
-            shrinkWrap: true,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: CardItem(
-                  title: (showRepository && !showIssue)
-                      ? item['name']
-                      : item['title'] ?? '',
-                  message: (showRepository && !showIssue)
-                      ? ''
-                      : item['description'] ?? '',
-                  url: item['url'] ?? '',
-                  updatedAt: item['updatedAt'] ?? '',
-                ),
-              );
-            });
-      },
-    ));
+    );
   }
 }
 
