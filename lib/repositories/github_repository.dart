@@ -14,7 +14,7 @@ Future<List<dynamic>?> fetchRepositories() async {
 
   List? items = (showRepository && !showIssue)
       ? (result.data?['viewer']?['repositories']?['nodes'])
-      : (result.data?['viewer']?['repository']?['issues']?['nodes']);
+      : (result.data?['repository']?['issues']?['nodes']);
 
   return items;
 }
