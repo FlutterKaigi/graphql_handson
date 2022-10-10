@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_handson/features.dart';
+import 'package:graphql_handson/model/issue.dart';
 import 'package:graphql_handson/model/repository.dart';
 import 'package:graphql_handson/repositories/github_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -47,18 +48,14 @@ class MyTopPage extends StatelessWidget {
                     );
                   } else {
                     // Issue一覧の表示
-                    final item = snapshot.data[index];
+                    final Issue issue = snapshot.data[index];
                     return Container(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: CardItem(
-                        title: (showRepository && !showIssue)
-                            ? item['name']
-                            : item['title'] ?? '',
-                        message: (showRepository && !showIssue)
-                            ? item['description'] ?? ''
-                            : item['body'] ?? '',
-                        url: item['url'] ?? '',
-                        updatedAt: item['updatedAt'] ?? '',
+                        title: issue.title,
+                        message: issue.body ?? '',
+                        url: issue.url,
+                        updatedAt: issue.updatedAt,
                       ),
                     );
                   }
