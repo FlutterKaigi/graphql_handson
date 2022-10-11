@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_handson/features.dart';
+import 'package:graphql_handson/model/issue.dart';
+import 'package:graphql_handson/model/repository.dart';
 import 'package:graphql_handson/repositories/github_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,7 +12,9 @@ class MyTopPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: FutureBuilder<dynamic>(
-        future: fetchRepositories(),
+        future: (showRepository && !showIssue)
+            ? fetchRepositories()
+            : fetchIssues(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -30,22 +34,33 @@ class MyTopPage extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    final item = snapshot.data[index];
+                  if ((showRepository && !showIssue)) {
+                    // Repository一覧の表示
+                    final Repository repository = snapshot.data[index];
                     return Container(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: CardItem(
-                        title: (showRepository && !showIssue)
-                            ? item['name']
-                            : item['title'] ?? '',
-                        message: (showRepository && !showIssue)
-                            ? ''
-                            : item['description'] ?? '',
-                        url: item['url'] ?? '',
-                        updatedAt: item['updatedAt'] ?? '',
+                        title: repository.name,
+                        message: repository.description ?? '',
+                        url: repository.url,
+                        updatedAt: repository.updatedAt,
                       ),
                     );
-                  });
-            // return Center(child: Text(snapshot.data.data.toString()));
+                  } else {
+                    // Issue一覧の表示
+                    final Issue issue = snapshot.data[index];
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: CardItem(
+                        title: issue.title,
+                        message: issue.body ?? '',
+                        url: issue.url,
+                        updatedAt: issue.updatedAt,
+                      ),
+                    );
+                  }
+                },
+              );
           }
         },
       ),
