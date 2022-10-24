@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:graphql_handson/pages/index.dart';
 import 'package:graphql_handson/provider/app_provider.dart';
+import 'package:graphql_handson/repositories/github_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,14 @@ class MyApp extends StatelessWidget {
             key: scaffoldKey,
             appBar: AppBar(
               title: const Text(title),
+              actions: [
+                IconButton(
+                  onPressed: () => createIssue(),
+                  icon: const Icon(
+                    Icons.add_circle_outline,
+                  ),
+                )
+              ],
             ),
             body: const MyTopPage(),
           ),
