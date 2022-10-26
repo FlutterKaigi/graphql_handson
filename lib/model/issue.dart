@@ -23,3 +23,13 @@ class Issue {
     );
   }
 }
+
+class CreateIssueParameter {
+  String title;
+  String body;
+
+  CreateIssueParameter({
+    required this.title,
+    required this.body,
+  });
+}

@@ -1,4 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql_handson/graphql/mutation.dart';
 import 'package:graphql_handson/graphql/query.dart';
 import 'package:graphql_handson/model/issue.dart';
 import 'package:graphql_handson/model/repository.dart';
@@ -31,4 +32,13 @@ Future<List<Issue>?> fetchIssues() async {
   final List<Issue> issueList =
       results!.map((dynamic item) => Issue.fromJson(item)).toList();
   return issueList;
+}
+
+// Issueの作成
+Future<void> createIssue() async {
+  await client.mutate(
+    MutationOptions(
+      document: gql(issueMutation),
+    ),
+  );
 }
