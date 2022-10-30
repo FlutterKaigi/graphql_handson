@@ -1,14 +1,14 @@
 // Issue
-const String issueMutation = """
-  mutation {
+const String issueMutation = '''
+  mutation (\$titleText: String!,\$bodyText: String!){
     createIssue(input: {
       repositoryId: "R_kgDOHx6taw",
-      title: "Create Test",
-      body: "This is a body."
+      title: \$titleText,
+      body: \$bodyText
     }) {
       issue {
         id
       }
     }
   }
-""";
+''';

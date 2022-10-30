@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:graphql_handson/graphql/mutation.dart';
 import 'package:graphql_handson/graphql/query.dart';
@@ -35,10 +37,18 @@ Future<List<Issue>?> fetchIssues() async {
 }
 
 // Issueの作成
-Future<void> createIssue() async {
-  await client.mutate(
-    MutationOptions(
-      document: gql(issueMutation),
-    ),
+Future<void> createIssue({required String title, required String body}) async {
+  final MutationOptions options = MutationOptions(
+    document: gql(issueMutation),
+    variables: <String, dynamic>{
+      'titleText': title,
+      'bodyText': body,
+    },
   );
+
+  final QueryResult result = await client.mutate(options);
+  if (result.hasException) {
+    log(result.exception.toString());
+    return;
+  }
 }

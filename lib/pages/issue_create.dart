@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:graphql_handson/repositories/github_repository.dart';
 
 class IssueInputPage extends StatefulWidget {
   const IssueInputPage({super.key});
@@ -26,7 +25,7 @@ class _IssueInputState extends State<IssueInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('テストアプリ'),
+        title: const Text('Issue Create'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -106,7 +105,11 @@ class _IssueInputState extends State<IssueInputPage> {
                 onPressed: !_isEnabled
                     ? null
                     : () {
-                        log('Press');
+                        createIssue(
+                          title: titleInputText,
+                          body: bodyInputText,
+                        );
+                        Navigator.of(context).pop();
                       },
                 style: ElevatedButton.styleFrom(
                   fixedSize: const Size(80, 40),
