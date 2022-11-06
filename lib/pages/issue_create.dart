@@ -29,7 +29,7 @@ class _IssueInputState extends State<IssueInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.id == ''
+        title: widget.id == null
             ? const Text('Issue Create')
             : const Text('Issue Update'),
       ),
@@ -134,7 +134,7 @@ class _IssueInputState extends State<IssueInputPage> {
                   ),
                 ),
                 child: Text(
-                  widget.id == '' ? '保存' : '更新',
+                  widget.id == null ? '保存' : '更新',
                 ),
               ),
             ),
