@@ -60,6 +60,7 @@ class Home extends StatelessWidget {
             ),
             icon: const Icon(
               Icons.add_circle_outline,
+              color: Colors.black,
             ),
           )
         ],

@@ -4,7 +4,6 @@ import 'package:graphql_handson/model/issue.dart';
 import 'package:graphql_handson/model/repository.dart';
 import 'package:graphql_handson/pages/issue_create.dart';
 import 'package:graphql_handson/repositories/github_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyTopPage extends StatelessWidget {
   const MyTopPage({super.key});
@@ -82,15 +81,43 @@ class CardItem extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: Card(
         color: Colors.white,
-        child: InkWell(
-          onTap: () async {
-            if (id == '') {
-              await launchUrl(
-                Uri.parse(url),
-                webOnlyWindowName: '_blank',
-              );
-            } else {
-              Navigator.of(context).push(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87),
+                    ),
+                  ),
+                  Text(
+                    message,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black87),
+                  ),
+                  Text(
+                    updatedAt,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black87),
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
                     return IssueInputPage(
@@ -100,39 +127,12 @@ class CardItem extends StatelessWidget {
                     );
                   },
                 ),
-              );
-            }
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87),
-                ),
               ),
-              Text(
-                message,
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black87),
+              icon: const Icon(
+                Icons.create_outlined,
               ),
-              Text(
-                updatedAt,
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black87),
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
