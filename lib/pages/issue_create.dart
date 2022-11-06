@@ -133,8 +133,8 @@ class _IssueInputState extends State<IssueInputPage> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ),
-                child: const Text(
-                  '保存',
+                child: Text(
+                  widget.id == '' ? '保存' : '更新',
                 ),
               ),
             ),
