@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_handson/features.dart';
 import 'package:graphql_handson/model/issue.dart';
 import 'package:graphql_handson/model/repository.dart';
+import 'package:graphql_handson/pages/issue_create.dart';
 import 'package:graphql_handson/repositories/github_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -52,6 +53,7 @@ class MyTopPage extends StatelessWidget {
                     return Container(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: CardItem(
+                        id: issue.id,
                         title: issue.title,
                         message: issue.body ?? '',
                         url: issue.url,
@@ -71,11 +73,13 @@ class MyTopPage extends StatelessWidget {
 class CardItem extends StatelessWidget {
   const CardItem({
     super.key,
+    this.id,
     required this.title,
     required this.message,
     required this.url,
     required this.updatedAt,
   });
+  final String? id;
   final String title;
   final String message;
   final String url;
@@ -89,10 +93,24 @@ class CardItem extends StatelessWidget {
         color: Colors.white70,
         child: InkWell(
           onTap: () async {
-            await launchUrl(
-              Uri.parse(url),
-              webOnlyWindowName: '_blank',
-            );
+            if (id == '') {
+              await launchUrl(
+                Uri.parse(url),
+                webOnlyWindowName: '_blank',
+              );
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return IssueInputPage(
+                      id: id,
+                      title: title,
+                      body: message,
+                    );
+                  },
+                ),
+              );
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(12),

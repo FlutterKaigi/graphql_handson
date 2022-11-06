@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:graphql_handson/repositories/github_repository.dart';
 
 class IssueInputPage extends StatefulWidget {
-  const IssueInputPage({super.key});
+  const IssueInputPage({super.key, this.id, this.title, this.body});
+
+  final String? id;
+  final String? title;
+  final String? body;
 
   @override
   State<IssueInputPage> createState() => _IssueInputState();
@@ -25,7 +29,9 @@ class _IssueInputState extends State<IssueInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Issue Create'),
+        title: widget.id == ''
+            ? const Text('Issue Create')
+            : const Text('Issue Update'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -51,11 +57,12 @@ class _IssueInputState extends State<IssueInputPage> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(left: 21),
-                    child: TextField(
+                    child: TextFormField(
                       decoration: const InputDecoration(
                         hintText: '入力してください',
                         border: InputBorder.none,
                       ),
+                      initialValue: widget.title ?? titleInputText,
                       onChanged: (titleValue) {
                         titleInputText = titleValue;
                         setState(() {
@@ -80,13 +87,14 @@ class _IssueInputState extends State<IssueInputPage> {
                   Container(
                     height: 100,
                     padding: const EdgeInsets.only(left: 21),
-                    child: TextField(
+                    child: TextFormField(
                       keyboardType: TextInputType.multiline, // 改行の可否
                       maxLines: 4, // 改行可能な行数
                       decoration: const InputDecoration(
                         hintText: '入力してください',
                         border: InputBorder.none,
                       ),
+                      initialValue: widget.body ?? bodyInputText,
                       onChanged: (bodyValue) {
                         bodyInputText = bodyValue;
                         setState(() {
@@ -105,10 +113,18 @@ class _IssueInputState extends State<IssueInputPage> {
                 onPressed: !_isEnabled
                     ? null
                     : () {
-                        createIssue(
-                          title: titleInputText,
-                          body: bodyInputText,
-                        );
+                        if (widget.id == null) {
+                          createIssue(
+                            title: titleInputText,
+                            body: bodyInputText,
+                          );
+                        } else {
+                          updateIssue(
+                            id: widget.id ?? '',
+                            title: titleInputText,
+                            body: bodyInputText,
+                          );
+                        }
                         Navigator.of(context).pop();
                       },
                 style: ElevatedButton.styleFrom(
