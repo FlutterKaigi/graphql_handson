@@ -15,9 +15,8 @@ const String createMutation = '''
 
 // Issueの更新
 const String updateMutation = '''
-  mutation (\$idText: String!, \$titleText: String!, \$bodyText: String!) {
+  mutation (\$idText: ID!, \$titleText: String!, \$bodyText: String!) {
     updateIssue(input: {
-      repositoryId: "R_kgDOHx6taw",
       id: \$idText,
       title: \$titleText,
       body: \$bodyText
