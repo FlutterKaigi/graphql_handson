@@ -31,9 +31,9 @@ class MyTopPage extends StatelessWidget {
               }
 
               return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
                   if ((showRepository && !showIssue)) {
                     // Repository一覧の表示
                     final Repository repository = snapshot.data[index];
