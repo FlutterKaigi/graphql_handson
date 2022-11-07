@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_handson/features.dart';
 import 'package:graphql_handson/model/issue.dart';
 import 'package:graphql_handson/model/repository.dart';
-import 'package:graphql_handson/pages/issue_create.dart';
+import 'package:graphql_handson/pages/issue_info.dart';
 import 'package:graphql_handson/repositories/github_repository.dart';
 
 class MyTopPage extends StatelessWidget {
