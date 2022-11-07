@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:graphql_handson/pages/index.dart';
-import 'package:graphql_handson/pages/issue_create.dart';
+import 'package:graphql_handson/pages/issue_info.dart';
 import 'package:graphql_handson/provider/app_provider.dart';
 
 Future<void> main() async {
@@ -60,6 +60,7 @@ class Home extends StatelessWidget {
             ),
             icon: const Icon(
               Icons.add_circle_outline,
+              color: Colors.black,
             ),
           )
         ],
