@@ -1,3 +1,5 @@
+import { OUTLINE_FEATURE } from './features'
+
 export default {
   title: `FlutterKaigi 2022 ハンズオン`,
   description: `ハンズオンでご紹介のあった資料を中心に記録しています。`,
@@ -121,16 +123,41 @@ export default {
     editLinks: false,
     docsDir: `docs`,
     nav: [
-      {
-        text: `アウトライン`,
-        items: [
-          { text: `Flutter で環境変数を取り扱う`, link: `/outline/1_environment-variables.md` },
-          { text: `GraphQL クライアントを選定する`, link: `/outline/2_graphql-client.md` },
-          { text: `リポジトリ一覧をフェッチする`, link: `/outline/3_fetch-repositories.md` },
-          { text: `issue 一覧をフェッチする`, link: `/outline/4_fetch-issues.md` },
-          { text: `issue を追加、更新する`, link: `/outline/5_post-issue.md` }
-        ]
-      },
+      OUTLINE_FEATURE
+        ? {
+            text: `Outline`,
+            items: [
+              {
+                text: `Flutter で環境変数を取り扱う`,
+                link: `/outline/1_environment-variables.md`
+              },
+              {
+                text: `GraphQL クライアントを選定する`,
+                link: `/outline/2_graphql-client.md`
+              },
+              {
+                text: `リポジトリ一覧をフェッチする`,
+                link: `/outline/3_fetch-repositories.md`
+              },
+              {
+                text: `issue 一覧をフェッチする`,
+                link: `/outline/4_fetch-issues.md`
+              },
+              {
+                text: `issue を追加、更新する`,
+                link: `/outline/5_post-issue.md`
+              }
+            ]
+          }
+        : {
+            text: `Registration`,
+            items: [
+              {
+                text: `イベント登録`,
+                link: `https://connpass.com/event/263057/`
+              }
+            ]
+          },
       {
         text: `Past Kaigis`,
         items: [
