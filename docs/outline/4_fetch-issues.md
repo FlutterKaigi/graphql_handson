@@ -1,18 +1,18 @@
-# イシュー一覧、詳細情報をフェッチする
+# issue 一覧、詳細情報をフェッチする
 
 当章では、アプリ内で GitHub API を実行できるところから、実際に GraphQL のクエリを書くところまで解説していきます。
 
 前章に引き続き、下記のように習熟度別でレベルを分けています。
 
-1. Level 1: リポジトリ一覧を取得する
-2. **Level 2: イシュー一覧を取得する** <- 当章
-3. **Level 3: イシューの詳細情報を取得する** <- 当章
+1. Level 1: リポジトリ一覧を取得する <- 済
+2. **Level 2: issue 一覧を取得する** <- 当章
+3. **Level 3: issue の詳細情報を取得する** <- 当章
 
-当章では Level 2 のイシュー一覧、さらに Level 3 のイシューの詳細情報を取得できることを目指します。
+当章では Level 2 の issue 一覧、さらに Level 3 の　issue の詳細情報を取得できることを目指します。
 
-### Level 2: イシュー一覧を取得する
+### Level 2: issue 一覧を取得する
 
-GitHub API の [`repository`](https://docs.github.com/ja/graphql/reference/mutations#createissue) を利用します。
+GitHub API の [`repository`](https://docs.github.com/en/graphql/reference/queries#repository) を利用します。
 
 ```dart
 String issuesQuery = """
@@ -39,9 +39,9 @@ String issuesQuery = """
 """;
 ```
 
-### Level 3: イシューの詳細情報を取得する
+### Level 3: issue の詳細情報を取得する
 
-引き続き GitHub API の [`repository`](https://docs.github.com/ja/graphql/reference/mutations#createissue) を利用します。
+引き続き GitHub API の [`repository`](https://docs.github.com/en/graphql/reference/queries#repository) を利用します。
 
 では、下記項目に限定して、フェッチすることを目指しましょう。
 
@@ -73,57 +73,17 @@ String issuesQuery = """
 """;
 ```
 
-さらに、イシューの詳細情報をフェッチしたい場合は、下記のように掘り下げられます。
+::: warning
 
-- ラベル (`labels.nodes.{id,name}`)
-- タイムライン (`timelineItems.nodes.{id,body}`)
-- アサイン (`participants.nodes.{id,login,name,avatarUrl}`)
+GraphQL では、この他に Fragment を考慮したクエリなど、より複雑なクエリを書くことも可能となります。その例として、複数の query や mutation の間で共有可能のクエリを指しますが、今回の FlutterKaigi 2022 ハンズオンではその部分を割愛させていただきます。
 
-```dart
-String issuesQuery = """
-  query {
-    repository(name: "_graphql_handson", owner: "FlutterKaigi") {
-      issues(
-        states: OPEN
-        first: 100
-        orderBy: { field: CREATED_AT, direction: DESC }
-      ) {
-        nodes {
-          number
-          labels(last: 10) {
-            nodes {
-              id
-              name
-            }
-          }
-          timelineItems(first: 20) {
-            nodes {
-              ... on IssueComment {
-                id
-                body
-              }
-            }
-          }
-          participants(last: 10) {
-            nodes {
-              id
-              login
-              name
-              avatarUrl(size: 40)
-            }
-          }
-        }
-      }
-    }
-  }
-""";
-```
+:::
 
 ## 情報をフェッチする
 
 FutureBuilder を利用して `snapshot.data` から ListView を描画します。
 
-イシュー一覧並びにその詳細情報を取得する場合には、クエリ `issuesQuery` を使用します。
+issue 一覧並びにその詳細情報を取得する場合には、クエリ `issuesQuery` を使用します。
 
 `Repository` クラスと同じく、factory コンストラクタ定義用に `Issue` クラスを準備します。
 
@@ -250,7 +210,7 @@ pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) �
 
 [@preview](https://pub.dev/packages/graphql_flutter)
 
-続いて、イシュー一覧並びにその詳細情報を取得する場合も同じく、クエリ `issuesQuery` を使用します。
+続いて　issue 一覧並びにその詳細情報を取得する場合も同じく、クエリ `issuesQuery` を使用します。
 
 ```dart
 return Center(

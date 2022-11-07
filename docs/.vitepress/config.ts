@@ -126,7 +126,7 @@ export default {
         items: [
           { text: `Flutter で環境変数を取り扱う`, link: `/outline/1_environment-variables.md` },
           { text: `GraphQL クライアントを選定する`, link: `/outline/2_graphql-client.md` },
-          { text: `repository 一覧をフェッチする`, link: `/outline/3_fetch-repositories.md` },
+          { text: `リポジトリ一覧をフェッチする`, link: `/outline/3_fetch-repositories.md` },
           { text: `issue 一覧をフェッチする`, link: `/outline/4_fetch-issues.md` },
           { text: `issue を追加、更新する`, link: `/outline/5_post-issue.md` }
         ]
