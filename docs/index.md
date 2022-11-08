@@ -4,7 +4,13 @@
 
 ## ハンズオン概要
 
-今回は GitHub API v4 (GraphQL) を扱いながら、コンテンツマネジメントシステム (CMS) 管理アプリの製作を目指していただく。
+今回は GitHub API v4 (GraphQL) を利用して GitHub issue をフェッチする、コンテンツ管理アプリ (CMS) の製作を目指していただきます。
+
+完成の予想図は下記のものを想定、中の情報は読み込むリポジトリによって変わります。
+
+|Figma|Final|
+|:---|:---|
+|![](https://i.imgur.com/hzlLica.png)|![](https://i.imgur.com/a5fgU8V.png)|
 
 ### 進め方
 
