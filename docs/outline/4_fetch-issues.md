@@ -2,13 +2,13 @@
 
 前章に引き続きフェッチを進めていきますが、下記のように習熟度別でレベルを分けました。
 
-1. Level 1: リポジトリ一覧を取得する <- 済
-2. **Level 2: issue 一覧を取得する** <- 当章
-3. **Level 3: issue の詳細情報を取得する** <- 当章
+1. Level 1: リポジトリ一覧をフェッチする <- 済
+2. **Level 2: issue 一覧をフェッチする** <- 当章
+3. **Level 3: issue の詳細情報をフェッチする** <- 当章
 
-当章では Level 2 の issue 一覧、さらに Level 3 の　issue の詳細情報を取得できることを目指します。
+当章では Level 2 の issue 一覧、さらに Level 3 の　issue の詳細情報をフェッチできることを目指します。
 
-### Level 2: issue 一覧を取得する
+### Level 2: issue 一覧をフェッチする
 
 GitHub API の [`repository`](https://docs.github.com/en/graphql/reference/queries#repository) を利用します。
 
@@ -37,7 +37,7 @@ String issuesQuery = """
 """;
 ```
 
-### Level 3: issue の詳細情報を取得する
+### Level 3: issue の詳細情報をフェッチする
 
 引き続き GitHub API の [`repository`](https://docs.github.com/en/graphql/reference/queries#repository) を利用します。
 
@@ -81,7 +81,7 @@ GraphQL では、この他に Fragment を考慮したクエリなど、より�
 
 FutureBuilder を利用して `snapshot.data` から ListView を描画します。
 
-issue 一覧並びにその詳細情報を取得する場合には、クエリ `issuesQuery` を使用します。
+issue 一覧並びにその詳細情報をフェッチする場合には、クエリ `issuesQuery` を使用します。
 
 `Repository` クラスと同じく、factory コンストラクタ定義用に `Issue` クラスを準備します。
 
@@ -125,7 +125,7 @@ class Issue {
 
 続いて実際に GraphQL クライアント `client.query()` を利用して、求める情報をフェッチしていきましょう。
 
-ここで、非同期で取得するための関数 `fetchIssues()` を作成します。
+ここで、非同期でフェッチするための関数 `fetchIssues()` を作成します。
 
 ```dart
 import 'package:graphql_handson/graphql/query.dart';
@@ -208,7 +208,7 @@ pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) �
 
 [@preview](https://pub.dev/packages/graphql_flutter)
 
-続いて　issue 一覧並びにその詳細情報を取得する場合も同じく、クエリ `issuesQuery` を使用します。
+続いて　issue 一覧並びにその詳細情報をフェッチする場合も同じく、クエリ `issuesQuery` を使用します。
 
 ```dart
 return Center(
