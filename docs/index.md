@@ -28,11 +28,11 @@ HelloWorld アプリとして作成されるカウントアップアプリが出
 
 ### アウトライン (予定)
 
-1. Flutter で環境変数を取り扱う
-2. GraphQL クライアントを選定する
-3. リポジトリ一覧をフェッチする
-4. issue 一覧をフェッチする
-5. issue を追加、更新する
+1. [Flutter で環境変数を取り扱う](/outline/1_environment-variables.md)
+2. [GraphQL クライアントを選定する](/outline/2_graphql-client.md)
+3. [リポジトリ一覧をフェッチする](/outline/3_fetch-repositories.md)
+4. [issue 一覧をフェッチする](/outline/4_fetch-issues.md)
+5. [issue を追加、更新する](/outline/5_post-issue.md)
 
 ## 配信動画一覧
 
@@ -48,3 +48,5 @@ TBD
 - [jiyuujin](https://github.com/jiyuujin)
 
 皆さま、コントリビュートいただきありがとうございます。
+
+また、誤りやより良い改善を見つけたという方は [Issues](https://github.com/FlutterKaigi/_graphql_handson/issues) または [Pull Request](https://github.com/FlutterKaigi/_graphql_handson/pulls) を作成していただければ幸いです。
