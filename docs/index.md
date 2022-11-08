@@ -26,12 +26,25 @@ HelloWorld アプリとして作成されるカウントアップアプリが出
 
 :::
 
-### アウトライン
+### アウトライン (予定)
 
-TBD
+1. Flutter で環境変数を取り扱う
+2. GraphQL クライアントを選定する
+3. リポジトリ一覧をフェッチする
+4. issue 一覧をフェッチする
+5. issue を追加、更新する
 
 ## 配信動画一覧
 
 [FlutterKaigi YouTube](https://www.youtube.com/channel/UC1JP6dPBmmccZto4LNz9KMw) チャンネル登録よろしくお願いします！
 
 TBD
+
+## コントリビューター
+
+[昨年](https://flutterkaigi-2021-workshop.netlify.app/) 同様、今回も FlutterKaigi ハンズオンチーム一同、企画・製作しています。
+
+- [NuumA](https://github.com/Nuu-mA)
+- [jiyuujin](https://github.com/jiyuujin)
+
+皆さま、コントリビュートいただきありがとうございます。
