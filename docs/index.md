@@ -35,3 +35,12 @@ TBD
 [FlutterKaigi YouTube](https://www.youtube.com/channel/UC1JP6dPBmmccZto4LNz9KMw) チャンネル登録よろしくお願いします！
 
 TBD
+
+## コントリビューター
+
+[昨年](https://flutterkaigi-2021-workshop.netlify.app/) 同様、今回も FlutterKaigi ハンズオンチーム一同、企画・製作しています。
+
+- [NuumA](https://github.com/Nuu-mA)
+- [jiyuujin](https://github.com/jiyuujin)
+
+皆さま、コントリビュートいただきありがとうございます。
