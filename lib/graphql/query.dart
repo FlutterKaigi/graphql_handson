@@ -1,4 +1,4 @@
-/// アカウント ID を取得する
+/// アカウント ID をフェッチする
 String basicQuery = """
   query {
     viewer {
@@ -7,7 +7,7 @@ String basicQuery = """
   }
 """;
 
-/// リポジトリ一覧を取得する
+/// リポジトリ一覧をフェッチする
 String repositoriesQuery = """
   query {
     viewer {
@@ -24,7 +24,7 @@ String repositoriesQuery = """
   }
 """;
 
-/// イシュー一覧を取得する
+/// イシュー一覧をフェッチする
 /// 個別にユーザ名とリポジトリ名を設定する
 String issuesQuery = """
   query {
