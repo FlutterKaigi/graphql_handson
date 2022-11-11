@@ -18,7 +18,7 @@ issue を追加、並びに更新するため、入力専用のフォームを�
 
 ::: tip
 
-Flutter では StatelessWidget と StatefulWidget の 2 種類のウェジェットがあります。前者 (StatelessWidget) で扱う値は全て、イミュータブル (不変) となり、プロパティを変更することはできません。
+Flutter では StatelessWidget と StatefulWidget の 2 種類のウェジェットがあります。前者 (StatelessWidget) で扱う値は全てイミュータブル (不変) となり、プロパティを変更することはできません。
 
 また、後者 (StatefulWidget) そのもののクラスは不変となる一方、値はそのクラスにおいて保持すること (ミュータブル) となります。
 
