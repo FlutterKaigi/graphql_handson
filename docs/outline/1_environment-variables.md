@@ -73,7 +73,7 @@ flutter build --dart-define GITHUB_TOKEN=hogehoge
 ```dart
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
-Future main async {
+Future main() async {
   await dotenv.load(); // .env を読み込む
   runApp(MyApp());
 }
