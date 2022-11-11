@@ -7,7 +7,7 @@ import 'package:graphql_handson/model/issue.dart';
 import 'package:graphql_handson/model/repository.dart';
 import 'package:graphql_handson/plugins/graphql_client.dart';
 
-// リポジトリ一覧の取得
+// リポジトリ一覧をフェッチする
 Future<List<Repository>?> fetchRepositories() async {
   var response = await client.query(
     QueryOptions(
@@ -21,7 +21,7 @@ Future<List<Repository>?> fetchRepositories() async {
   return repositoryList;
 }
 
-// Issue一覧の取得
+// Issue一覧をフェッチする
 Future<List<Issue>?> fetchIssues() async {
   var response = await client.query(
     QueryOptions(
