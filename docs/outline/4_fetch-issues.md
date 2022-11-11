@@ -6,7 +6,7 @@
 2. **Level 2: issue 一覧をフェッチする** <- 当章
 3. **Level 3: issue の詳細情報をフェッチする** <- 当章
 
-当章では Level 2 の issue 一覧、さらに Level 3 の　issue の詳細情報をフェッチできることを目指します。
+当章では Level 2 の issue 一覧、さらに Level 3 の issue の詳細情報をフェッチできることを目指します。
 
 ### Level 2: issue 一覧をフェッチする
 
@@ -208,7 +208,7 @@ pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) �
 
 [@preview](https://pub.dev/packages/graphql_flutter)
 
-続いて　issue 一覧並びにその詳細情報をフェッチする場合も同じく、クエリ `issuesQuery` を使用します。
+続いて issue 一覧並びにその詳細情報をフェッチする場合も同じく、クエリ `issuesQuery` を使用します。
 
 ```dart
 return Center(
