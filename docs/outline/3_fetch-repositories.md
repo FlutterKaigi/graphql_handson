@@ -138,43 +138,42 @@ Future<List<Repository>?> fetchRepositories() async {
 
 ```dart
 FutureBuilder<dynamic>(
-    future: fetchRepositories(),
-    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-      switch (snapshot.connectionState) {
-        case ConnectionState.none:
-        case ConnectionState.active:
-        case ConnectionState.waiting:
-          // 通信状態が waiting (待ち) の場合
-          return const Text('Loading');
-        case ConnectionState.done:
-          // 通信状態が done (完了) の場合
-          return Center();
-        },
-      },
-    },
-  ),
+  future: fetchRepositories(),
+  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+      case ConnectionState.active:
+      case ConnectionState.waiting:
+        // 通信状態が waiting (待ち) の場合
+        return const Text('Loading');
+      case ConnectionState.done:
+        // 通信状態が done (完了) の場合
+        return Center();
+    }
+  },
+),
 ```
 
 通信が終了したことを踏まえて、実際のデータ `snapshot.data` の有無を確認します。
 
 ```dart
 FutureBuilder<dynamic>(
-    future: fetchRepositories(),
-    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-      // 通信にエラーが発生した場合
-      if (snapshot.hasError) {
-        return Center(child: Text('Error : ${snapshot.error}'));
-      }
+  future: fetchRepositories(),
+  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    // 通信にエラーが発生した場合
+    if (snapshot.hasError) {
+      return Center(child: Text('Error : ${snapshot.error}'));
+    }
 
-      // 通信に成功も、データが存在しなかった場合
-      if (snapshot.data == null) {
-        return const Text('No issues');
-      }
+    // 通信に成功も、データが存在しなかった場合
+    if (snapshot.data == null) {
+      return const Text('No issues');
+    }
 
-      // 通信に成功し、無事にデータをフェッチできた場合
-      return Center();
-    },
-  ),
+    // 通信に成功し、無事にデータをフェッチできた場合
+    return Center();
+  },
+),
 ```
 
 ここでのポイントは、通信状態による出し分けとなります。
