@@ -13,9 +13,16 @@ class IssueInputPage extends StatefulWidget {
 }
 
 class _IssueInputState extends State<IssueInputPage> {
-  String titleInputText = '';
-  String bodyInputText = '';
+  late String titleInputText;
+  late String bodyInputText;
   bool _isEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    titleInputText = widget.title ?? "";
+    bodyInputText = widget.body ?? "";
+  }
 
   void _changeEnabled() {
     if (titleInputText.isNotEmpty && bodyInputText.isNotEmpty) {
