@@ -30,7 +30,8 @@ GitHub API を手元のアプリで使うために、アカウントを取得す
 
 今回は前者を利用させていただきますが、各自 GitHub の Developer Settings でトークンを作成します。
 
-こちらの Developer Settings より `Personal access tokens` をクリックします。
+こちらの Developer Settings より `Personal access tokens` から `Token(classic)`を選択します。  
+※ `Fine-grained tokens` という新しい作成方法もありますが今回は割愛します。([参考](https://github.blog/2022-10-18-introducing-fine-grained-personal-access-tokens-for-github/))
 
 ![](https://i.imgur.com/qPu8TDv.png)
 
@@ -52,7 +53,7 @@ Flutter で環境変数を取り扱うには、下記 2 種類の方法から選
 - `dart-define` オプションを利用する
 - [flutter_dotenv](https://pub.dev/packages/flutter_dotenv) を利用する
 
-`dart-define` は Flutter アプリのビルドや実行の際に環境変数を設定するためのパラメータで `flutter build --dart-define HOGE_TOKEN=hogehoge` のように使えます。
+`dart-define` は Flutter アプリのビルドや実行の際に環境変数を設定するためのパラメータで `flutter build web --dart-define HOGE_TOKEN=hogehoge` のように使えます。(`web`の部分にはbuildしたいプラットフォームを入力します。今回はwebを選択します。)
 
 今回は、この前者　`dart-define` オプションを利用して、発行済みの環境変数を使用することとします。
 
