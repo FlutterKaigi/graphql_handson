@@ -54,7 +54,7 @@ Flutter で環境変数を取り扱うには、下記 2 種類の方法から選
 
 `dart-define` は Flutter アプリのビルドや実行の際に環境変数を設定するためのパラメータで `flutter build --dart-define HOGE_TOKEN=hogehoge` のように使えます。
 
-今回は、この前者　`dart-define` オプションを利用して、発行済みの環境変数を使用することとします。
+今回は、この前者 `dart-define` オプションを利用して、発行済みの環境変数を使用することとします。
 
 先に GitHub 管理画面で発行した際に生成されたトークンを `--dart-define` オプションと合わせ設定しましょう。
 
@@ -73,7 +73,7 @@ flutter build --dart-define GITHUB_TOKEN=hogehoge
 ```dart
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
-Future main async {
+Future main() async {
   await dotenv.load(); // .env を読み込む
   runApp(MyApp());
 }
