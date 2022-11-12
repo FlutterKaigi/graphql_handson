@@ -4,7 +4,7 @@
 
 では、手始めに GitHub API のクエリを書くため、まずは GitHub API の [`viewer`](https://docs.github.com/ja/graphql/reference/queries#viewer) を利用します。
 
-```dart
+```dart [lib/graphql/query.dart]
 String basicQuery = """
   query {
     viewer {
@@ -14,21 +14,189 @@ String basicQuery = """
 """;
 ```
 
+GraphQL クエリの実行結果を確認するには、GitHub API [Explorer](https://docs.github.com/ja/graphql/overview/explorer) を利用するのが容易となります。
+
+GitHub 認証を済ませることで、気軽に GraphQL クエリを実行できます。
+
+```graphql
+{
+  viewer {
+    login
+  }
+}
+```
+
+GraphQL クエリを直接書いても、Explorer タブより「ぽちぽち」とチェックを付けても、構いません。
+
 実際、この `viewer` 配下には、ありとあらゆる項目が設定されています。そのうち `viewer.login` を書くことで私たちが得られる情報は、各自ログインしている GitHub アカウントの ID となります。
 
 ここで GraphQL が REST と違う点で、一部の項目に限定してフェッチすることが可能になります。
 
-その `viewer.login` の情報がフェッチされていることを確認できたら、実際に GitHub 上にある情報の取得を目指しましょう。
-
 下記のように習熟度別でレベルを分けました。
 
-1. **Level 1: リポジトリ一覧をフェッチする** <- 当章
-2. Level 2: issue 一覧をフェッチする
-3. Level 3: issue の詳細情報をフェッチする
+1. **Level 1: カードウィジェットを作成する** <- 当章
+2. **Level 2: リポジトリ一覧をフェッチする** <- 当章
+3. Level 3: issue 一覧、詳細情報をフェッチする
 
 当章では Level 1 のリポジトリ一覧をフェッチできることを目指します。
 
-### Level 1: リポジトリ一覧をフェッチする
+### カードウィジェットを作成する
+
+今回のハンズオンでは、自身の GitHub アカウントに属しているリポジトリ、issue の一覧、issue の詳細情報を表示します。
+
+これを実現するため、事前にカードウィジェットを作成する必要があります。
+
+- ID (`id`) <- issue を更新する時に限って使用する
+- タイトル (`title`)
+- 詳細 (`message`)
+- URL (`url`)
+- 更新日時 (`updatedAt`)
+
+```dart [lib/pages/index.dart]
+class CardItem extends StatelessWidget {
+  const CardItem({
+    super.key,
+    this.id,
+    required this.title,
+    required this.message,
+    required this.url,
+    required this.updatedAt,
+  });
+  final String? id;
+  final String title;
+  final String message;
+  final String url;
+  final String updatedAt;
+}
+```
+
+まずは、カード内のレイアウトを設計します。
+
+`Column` を使うことで `children` 配下に置かれたウィジェットを縦に並べられます。
+
+```dart
+Container(
+  color: const Color(0xFFEFEFEF),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      //
+    ],
+  ),
+),
+```
+
+カード内で、複数の情報を設定します。
+
+- タイトル (`title`)
+- 詳細 (`message`)
+- 更新日時 (`updatedAt`)
+
+続いて [`Text`](https://docs.flutter.dev/development/ui/widgets/text) ウィジェットを設計します。
+
+[@preview](https://docs.flutter.dev/development/ui/widgets/text)
+
+タイトル `title` を表示するため Text ウィジェットを利用します。
+
+
+```dart [lib/pages/index.dart]
+Container(
+  padding: const EdgeInsets.only(top: 4),
+  child: Text(
+    title,
+    style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.black87),
+      ),
+),
+```
+
+詳細 `message` を表示するため Text ウィジェットを利用します。
+
+```dart [lib/pages/index.dart]
+Text(
+  message,
+  style: const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: Colors.black87),
+),
+```
+
+更新日時 `updatedAt` を表示するため Text ウィジェットを利用します。
+
+```dart [lib/pages/index.dart]
+Text(
+  updatedAt,
+  style: const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: Colors.black87),
+),
+```
+
+それぞれのウィジェットを `Column` の `children` 配下に設定します。
+
+```dart [lib/pages/index.dart]
+class CardItem extends StatelessWidget {
+  const CardItem({
+    super.key,
+    this.id,
+    required this.title,
+    required this.message,
+    required this.url,
+    required this.updatedAt,
+  });
+  final String? id;
+  final String title;
+  final String message;
+  final String url;
+  final String updatedAt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                title,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+            ),
+            Text(
+              message,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black87),
+            ),
+            Text(
+              updatedAt,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black87),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+### Level 2: リポジトリ一覧をフェッチする
 
 引き続き GitHub API の [`viewer`](https://docs.github.com/ja/graphql/reference/queries#viewer) を利用します。
 
@@ -40,7 +208,7 @@ String basicQuery = """
 - 説明文 (`description`)
 - 更新日時 (`updatedAt`)
 
-```dart
+```dart [lib/graphql/query.dart]
 String repositoriesQuery = """
   query {
     viewer {
@@ -74,7 +242,7 @@ factory コンストラクタを定義するため、まず `Repository` クラ�
 - 説明文 (`description`)
 - 更新日時 (`updatedAt`)
 
-```dart
+```dart [lib/model/repository.dart]
 class Repository {
   String id;
   String name;
@@ -108,11 +276,7 @@ REST と違って、必要な項目に限定してフェッチできるのが Gr
 
 ここで、非同期でフェッチするための関数 `fetchRepositories()` を作成します。
 
-```dart
-import 'package:graphql_handson/graphql/query.dart';
-import 'package:graphql_handson/model/repository.dart';
-import 'package:graphql_handson/plugins/graphql_client.dart';
-
+```dart [lib/repositories/github_repository.dart]
 Future<List<Repository>?> fetchRepositories() async {
   var response = await client.query(
     QueryOptions(
@@ -136,45 +300,44 @@ Future<List<Repository>?> fetchRepositories() async {
 
 まずは実際の通信状態 `snapshot.connectionState` を確認します。
 
-```dart
+```dart [lib/pages/index.dart]
 FutureBuilder<dynamic>(
-    future: fetchRepositories(),
-    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-      switch (snapshot.connectionState) {
-        case ConnectionState.none:
-        case ConnectionState.active:
-        case ConnectionState.waiting:
-          // 通信状態が waiting (待ち) の場合
-          return const Text('Loading');
-        case ConnectionState.done:
-          // 通信状態が done (完了) の場合
-          return Center();
-        },
-      },
-    },
-  ),
+  future: fetchRepositories(),
+  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+      case ConnectionState.active:
+      case ConnectionState.waiting:
+        // 通信状態が waiting (待ち) の場合
+        return const Text('Loading');
+      case ConnectionState.done:
+        // 通信状態が done (完了) の場合
+        return Center();
+    }
+  },
+),
 ```
 
 通信が終了したことを踏まえて、実際のデータ `snapshot.data` の有無を確認します。
 
-```dart
+```dart [lib/pages/index.dart]
 FutureBuilder<dynamic>(
-    future: fetchRepositories(),
-    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-      // 通信にエラーが発生した場合
-      if (snapshot.hasError) {
-        return Center(child: Text('Error : ${snapshot.error}'));
-      }
+  future: fetchRepositories(),
+  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    // 通信にエラーが発生した場合
+    if (snapshot.hasError) {
+      return Center(child: Text('Error : ${snapshot.error}'));
+    }
 
-      // 通信に成功も、データが存在しなかった場合
-      if (snapshot.data == null) {
-        return const Text('No issues');
-      }
+    // 通信に成功も、データが存在しなかった場合
+    if (snapshot.data == null) {
+      return const Text('No issues');
+    }
 
-      // 通信に成功し、無事にデータをフェッチできた場合
-      return Center();
-    },
-  ),
+    // 通信に成功し、無事にデータをフェッチできた場合
+    return Center();
+  },
+),
 ```
 
 ここでのポイントは、通信状態による出し分けとなります。
@@ -182,7 +345,7 @@ FutureBuilder<dynamic>(
 - そもそも通信が安全に終了していますか
 - 通信が安全に終了しても、データ `snapshot.data` は存在していますか
 
-```dart
+```dart [lib/pages/index.dart]
 return Center(
   child: FutureBuilder<dynamic>(
     future: fetchRepositories(),
@@ -233,7 +396,7 @@ pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) �
 
 リポジトリ一覧をフェッチする場合も同じく、クエリ `repositoriesQuery` を使用します。
 
-```dart
+```dart [lib/pages/index.dart]
 return Center(
     child: Query(
   options: QueryOptions(
