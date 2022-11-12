@@ -70,7 +70,7 @@ flutter build --dart-define GITHUB_TOKEN=hogehoge
 
 .env を Git 管理下から除外することを前提に、ルートの main.dart で .env を読み込みます。
 
-```dart
+```dart [lib/main.dart]
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
 Future main() async {

@@ -70,6 +70,26 @@ GraphQL フラグメントの処理に関して柔軟です。その詳細につ
 
 [@preview](https://budde377.medium.com/structure-your-flutter-graphql-apps-717ab9e46a5d)
 
+### pubspec.yaml で GraphQL の書ける環境を整える
+
+Flutter アプリ内で使う依存関係は、ルートの pubspec.yaml で管理します。
+
+[@preview](https://pub.dev/packages/graphql_flutter)
+
+[@preview](https://pub.dev/packages/graphql)
+
+今回の Flutter × GraphQL ハンズオンでは、graphql_flutter `v5.1.0` と graphql `v5.1.1` を使用します。
+
+```yaml [pubspec.yaml]
+dependencies:
+  graphql_flutter: ^5.1.0
+  graphql: ^5.1.1
+```
+
+これを書いた後に `flutter pub get` を実行します。
+
+すると pubspec.lock が更新されます。
+
 ## Hive の初期化を行う
 
 GraphQL クライアントに graphql_flutter の使用が決まれば、実際にアプリ内で GraphQL を使用できるよう準備していきましょう。
@@ -86,7 +106,7 @@ TBD (Hive の説明)
 
 GraphQL クライアントのキャッシュに Hive を使用しているため、それらの初期化を行います。
 
-```dart
+```dart [lib/main.dart]
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -99,9 +119,37 @@ Future<void> main() async {
 
 ## GraphQL クライアントを作成する
 
-Hive の初期化が完了すると、いよいよ GraphQL クライアントを作成していきます。
+Hive の初期化が完了すると、いよいよ GraphQL クライアントを作成します。
 
-```dart
+事前に GraphQLProvider を利用して、Flutter アプリ全体をラップする Provider を作成します。
+
+```dart [lib/provider/app_provider.dart]
+import 'package:graphql_flutter/graphql_flutter.dart';
+
+class AppProvider extends StatelessWidget {
+  const AppProvider({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final clientValue = ValueNotifier<GraphQLClient>(
+      client,
+    );
+
+    return GraphQLProvider(
+      client: clientValue,
+      child: child,
+    );
+  }
+}
+```
+
+Provider の `client` で GitHub クライアントを作成します。
+
+```dart [lib/plugins/graphql_client.dart]
+import 'package:graphql/client.dart';
+
 /// 環境変数を利用する
 const gitHubToken = String.fromEnvironment('GITHUB_TOKEN');
 
@@ -127,3 +175,5 @@ return GraphQLProvider(
   child: child,
 );
 ```
+
+Apollo クライアントの要領で使用できます。

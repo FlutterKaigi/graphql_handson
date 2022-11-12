@@ -2,57 +2,23 @@
 
 前章に引き続きフェッチを進めていきますが、下記のように習熟度別でレベルを分けました。
 
-1. Level 1: リポジトリ一覧をフェッチする <- 済
-2. **Level 2: issue 一覧をフェッチする** <- 当章
-3. **Level 3: issue の詳細情報をフェッチする** <- 当章
+1. Level 1: カードウィジェットを作成する <- 済
+2. Level 2: リポジトリ一覧をフェッチする <- 済
+3. **Level 3: issue 一覧、issue の詳細情報をフェッチする** <- 当章
 
-当章では Level 2 の issue 一覧、さらに Level 3 の issue の詳細情報をフェッチできることを目指します。
+当章では Level 3 の issue の一覧、issue の詳細情報をフェッチできることを目指します。
 
-### Level 2: issue 一覧をフェッチする
+### Level 3: issue 一覧、issue の詳細情報をフェッチする
 
 GitHub API の [`repository`](https://docs.github.com/en/graphql/reference/queries#repository) を利用します。
 
-```dart
+```dart [lib/graphql/query.dart]
 String issuesQuery = """
   query {
     repository(name: "_graphql_handson", owner: "FlutterKaigi") {
       description
       createdAt
       name
-      issues(
-        states: OPEN
-        first: 100
-        orderBy: { field: CREATED_AT, direction: DESC }
-      ) {
-        nodes {
-          id
-          body
-          updatedAt
-          title
-          url
-        }
-      }
-    }
-  }
-""";
-```
-
-### Level 3: issue の詳細情報をフェッチする
-
-引き続き GitHub API の [`repository`](https://docs.github.com/en/graphql/reference/queries#repository) を利用します。
-
-では、下記項目に限定して、フェッチすることを目指しましょう。
-
-- ID (`id`)
-- タイトル (`title`)
-- 説明文 (`body`)
-- URL (`url`)
-- 更新日時 (`updatedAt`)
-
-```dart
-String issuesQuery = """
-  query {
-    repository(name: "_graphql_handson", owner: "FlutterKaigi") {
       issues(
         states: OPEN
         first: 100
@@ -93,7 +59,7 @@ issue 一覧並びにその詳細情報をフェッチする場合には、ク�
 - URL (`url`)
 - 更新日時 (`updatedAt`)
 
-```dart
+```dart [lib/model/issue.dart]
 class Issue {
   String id;
   String title;
@@ -127,11 +93,7 @@ class Issue {
 
 ここで、非同期でフェッチするための関数 `fetchIssues()` を作成します。
 
-```dart
-import 'package:graphql_handson/graphql/query.dart';
-import 'package:graphql_handson/model/issue.dart';
-import 'package:graphql_handson/plugins/graphql_client.dart';
-
+```dart [lib/repositories/github_repository.dart]
 Future<List<Issue>?> fetchIssues() async {
   var response = await client.query(
     QueryOptions(
@@ -159,7 +121,7 @@ Future<List<Issue>?> fetchIssues() async {
 - そもそも通信が安全に終了していますか
 - 通信が安全に終了しても、データ `snapshot.data` は存在していますか
 
-```dart
+```dart [lib/pages/index.dart]
 return Center(
   child: FutureBuilder<dynamic>(
     future: fetchIssues(),
@@ -202,57 +164,98 @@ return Center(
 
 結果として、こんな形でウィジェットに含めていくこととなります。
 
-## 補足
+## 4 章で目指すべきゴール
 
-pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) に則って [GraphQL Provider](https://pub.dev/packages/graphql_flutter#graphql-provider) を利用します。
+途中経過のソースコードを下に示します。
 
-[@preview](https://pub.dev/packages/graphql_flutter)
+### リポジトリ一覧をフェッチする
 
-続いて issue 一覧並びにその詳細情報をフェッチする場合も同じく、クエリ `issuesQuery` を使用します。
 
-```dart
-return Center(
-    child: Query(
-  options: QueryOptions(
-    document: gql(issuesQuery),
-    variables: const {
-      //
-    },
-    fetchPolicy: FetchPolicy.noCache,
-    cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-    pollInterval: const Duration(seconds: 10),
-  ),
-  builder: (QueryResult result,
-      {VoidCallback? refetch, FetchMore? fetchMore}) {
-    if (result.hasException) {
-      return Text(result.exception.toString());
-     }
+```dart [lib/pages/index.dart]
+class MyTopPage extends StatelessWidget {
+  const MyTopPage({super.key});
 
-    if (result.isLoading) {
-      return const Text('Loading');
-    }
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<dynamic>(
+      future: fetchRepositories(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.active:
+          case ConnectionState.waiting:
+            return const Text('Loading');
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Center(child: Text('Error : ${snapshot.error}'));
+            }
 
-    List? items = (result.data?['repository']?['issues']?['nodes']);
+            if (snapshot.data == null) {
+              return const Text('No issues');
+            }
 
-    if (items == null) {
-      return const Text('No issues');
-    }
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                final Repository repository = snapshot.data[index];
+                return CardItem(
+                  title: repository.name,
+                  message: repository.description ?? '',
+                  url: repository.url,
+                  updatedAt: repository.updatedAt,
+                );
+              },
+            );
+        }
+      },
+    );
+  }
+}
+```
 
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: CardItem(
-              title: item['title'] ?? '',
-              message: item['description'] ?? '',
-              url: item['url'] ?? '',
-              updatedAt: item['updatedAt'] ?? '',
-            ),
-          );
-        });
-  },
-));
+### issue 一覧、issue の詳細情報をフェッチする
+
+```dart [lib/pages/index.dart]
+class MyTopPage extends StatelessWidget {
+  const MyTopPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<dynamic>(
+      future: fetchIssues(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.active:
+          case ConnectionState.waiting:
+            return const Text('Loading');
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Center(child: Text('Error : ${snapshot.error}'));
+            }
+
+            if (snapshot.data == null) {
+              return const Text('No issues');
+            }
+
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                final Issue issue = snapshot.data[index];
+                return CardItem(
+                  id: issue.id,
+                  title: issue.title,
+                  message: issue.body ?? '',
+                  url: issue.url,
+                  updatedAt: issue.updatedAt,
+                );
+              },
+            );
+        }
+      },
+    );
+  }
+}
 ```
