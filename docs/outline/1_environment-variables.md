@@ -30,7 +30,7 @@ GitHub API を手元のアプリで使うために、アカウントを取得す
 
 今回は前者を利用させていただきますが、各自 GitHub の Developer Settings でトークンを作成します。
 
-こちらの Developer Settings より `Personal access tokens` から `Token(classic)`を選択します。  
+こちらの Developer Settings より `Personal access tokens` から `Token(classic)` を選択します。
 ※ `Fine-grained tokens` という新しい作成方法もありますが今回は割愛します。([参考](https://github.blog/2022-10-18-introducing-fine-grained-personal-access-tokens-for-github/))
 
 ![](https://i.imgur.com/qPu8TDv.png)
