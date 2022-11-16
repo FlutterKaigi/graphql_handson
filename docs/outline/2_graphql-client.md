@@ -157,16 +157,11 @@ final AuthLink authLink = AuthLink(
 
 final Link link = authLink.concat(httpLink);
 
-final client = ValueNotifier<GraphQLClient>(
-  GraphQLClient(
-    link: link,
-    cache: GraphQLCache(store: HiveStore()),
+final client = GraphQLClient(
+  cache: GraphQLCache(
+    store: HiveStore(),
   ),
-);
-
-return GraphQLProvider(
-  client: client,
-  child: child,
+  link: link,
 );
 ```
 
