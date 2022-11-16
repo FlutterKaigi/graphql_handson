@@ -98,12 +98,6 @@ GraphQL クライアントに graphql_flutter の使用が決まれば、実際�
 
 [@preview](https://docs.hivedb.dev/)
 
-
-
-TBD (Hive の説明)
-
-
-
 GraphQL クライアントのキャッシュに Hive を使用しているため、それらの初期化を行います。
 
 ```dart [lib/main.dart]
