@@ -212,7 +212,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(_appTitle),
       ),
-      body: Container(),
+      body: const Center(),
     );
   }
 }
