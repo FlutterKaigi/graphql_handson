@@ -84,12 +84,36 @@ class CardItem extends StatelessWidget {
 Container(
   color: const Color(0xFFEFEFEF),
   child: Column(
+    mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
       //
     ],
   ),
 ),
+```
+
+
+次に、カード全体のレイアウトを整えます。  
+[`Directionality`](https://api.flutter.dev/flutter/intl/TextDirection-class.html) ウィジェットはテキストの表示方向を指定できます。  
+[`Card`](https://api.flutter.dev/flutter/material/Card-class.html) ウィジェットはマテリアルデザインとして定義されるカードコンポーネントとしての見た目を整えることが出来ます.  
+
+`Colors.white` は `const Color(0xFFEFEFEF)` と同一のものになります。
+
+```dart
+    Directionality(
+      textDirection: TextDirection.ltr,
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            //
+          ],
+        ),
+      ),
+    )
 ```
 
 カード内で、複数の情報を設定します。
