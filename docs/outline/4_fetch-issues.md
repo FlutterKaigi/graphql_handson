@@ -178,8 +178,8 @@ return Center(
 
 
 ```dart [lib/pages/index.dart]
-class MyTopPage extends StatelessWidget {
-  const MyTopPage({super.key});
+class IssueListPage extends StatelessWidget {
+  const IssueListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -223,8 +223,8 @@ class MyTopPage extends StatelessWidget {
 ### issue 一覧、issue の詳細情報をフェッチする
 
 ```dart [lib/pages/index.dart]
-class MyTopPage extends StatelessWidget {
-  const MyTopPage({super.key});
+class IssueListPage extends StatelessWidget {
+  const IssueListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
