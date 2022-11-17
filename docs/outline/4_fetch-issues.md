@@ -116,6 +116,12 @@ Future<List<Issue>?> fetchIssues() async {
 - 実際の通信状態 `snapshot.connectionState` を確認する
 - 確認した通信状態を踏まえて、実際のデータ `snapshot.data` の有無を確認する
 
+加えて、大事なのは`snapshot.data`で取得するmodelが`Repository`から`Issue`に変わっていることです。下記の部分を変更しましょう。
+
+```dart [lib/pages/index.dart]
+final Issue issue = snapshot.data[index];
+```
+
 ここでのポイントは、通信状態による出し分けとなります。
 
 - そもそも通信が安全に終了していますか
