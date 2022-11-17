@@ -167,7 +167,7 @@ final client = GraphQLClient(
 
 Apollo クライアントの要領で使用できます。
 
-最後にSampleのアプリに `AppProvider` を追加します。  
+最後に Sample のアプリに `AppProvider` を追加します。  
 また、 `MyHomePageClass` を `StatelessWidget` に変更しましょう。
 
 

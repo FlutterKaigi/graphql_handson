@@ -59,7 +59,7 @@ class _IssueInputState extends State<IssueInputPage> {
 まずは、フォーム全体のレイアウトを設計します。
 
 `Column` を使うことで `children` 配下に置かれたウィジェットを縦に並べられます。  
-`SingleChildScrollView`で `Column` を Wrap することでスクロールする可能になります。 (スクロール不可の状態で縦の画面サイズが足らないとエラーが発生して画面描画が出来ません) 
+`SingleChildScrollView` で `Column` を Wrap することでスクロールする可能になります。 (スクロール不可の状態で縦の画面サイズが足らないとエラーが発生して画面描画が出来ません) 
 
 ```dart [lib/pages/issue_info.dart]
     Scaffold(
