@@ -67,6 +67,12 @@ class CardItem extends StatelessWidget {
   final String message;
   final String url;
   final String updatedAt;
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
 }
 ```
 
