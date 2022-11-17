@@ -59,7 +59,7 @@ class _IssueInputState extends State<IssueInputPage> {
 まずは、フォーム全体のレイアウトを設計します。
 
 `Column` を使うことで `children` 配下に置かれたウィジェットを縦に並べられます。  
-`SingleChildScrollView`で`Column`をWrapすることでスクロールする可能になります。（スクロール不可の状態で縦の画面サイズが足らないとエラーが発生して画面描画が出来ません）
+`SingleChildScrollView`で `Column` を Wrap することでスクロールする可能になります。 (スクロール不可の状態で縦の画面サイズが足らないとエラーが発生して画面描画が出来ません) 
 
 ```dart [lib/pages/issue_info.dart]
     Scaffold(
@@ -390,11 +390,11 @@ IconButton(
 ```
 
 ここまで作成することが出来たらアプリケーションを起動して、動くか確認してみましょう。  
-上手くテキストを入力する事が出来れば、Issueを追加することが出来るはずです。
+上手くテキストを入力する事が出来れば、 Issue を追加することが出来るはずです。
 
 ::: tip
 
-[`IconClass`](https://api.flutter.dev/flutter/material/Icons-class.html)にはFlutter側でMaterial Iconsに即したアイコンを用意されています。（今回は`Icons.add_circle_outline`を利用しました。）  
+[`IconClass`](https://api.flutter.dev/flutter/material/Icons-class.html)には Flutter 側で Material Icons に即したアイコンを用意されています。 (今回は `Icons.add_circle_outline` を利用しました。)   
 [`GoogleFonts`](https://fonts.google.com/icons?selected=Material+Icons)でも使いたいアイコンを探すことが出来るのでぜひ利用してみてください。
 
 :::
@@ -467,9 +467,9 @@ Future<void> updateIssue(
 }
 ```
 
-ここからはIssue更新用の導線をレイアウトに追加していきます。  
-`CardItemClass`でIssueの内容を表示していた`ColumnWidget`を`RowWidget`でWrapしてください。  
-Issueアイテムの右端に更新用のボタンを追加します。
+ここからは Issue 更新用の導線をレイアウトに追加していきます。  
+`CardItemClass` で Issue の内容を表示していた `ColumnWidget` を `RowWidget` で Wrap してください。  
+Issue アイテムの右端に更新用のボタンを追加します。
 
 ```dart [lib/pages/index.dart]
 Card(
@@ -516,7 +516,7 @@ Card(
 ),
 ```
 
-次に更新用`IconButton`を追加します。ボタンをタップした際には`IssueInputPage`に遷移させます。
+次に更新用 `IconButton` を追加します。ボタンをタップした際には `IssueInputPage` に遷移させます。
 
 issue を更新する際は、既に設定されている title や body に加え id も設定する必要があります。
 
@@ -541,16 +541,16 @@ IconButton(
 ),
 ```
 
-このままでは`IssueInputPage`が引数にidらのパラメータを受け取ることが出来ないため対応させる必要があります。  
+このままでは `IssueInputPage` が引数に id らのパラメータを受け取ることが出来ないため対応させる必要があります。  
 
-修正項目を列挙したので、完成形ソースコードを参照しながらIssueの更新が出来るように修正してみましょう。
+修正項目を列挙したので、完成形ソースコードを参照しながら Issue の更新が出来るように修正してみましょう。
 
-- 引数としてnamed_parameterに`id`,`title`,`body`を受け取るようにする
-- 受け取ったパラメータをDefault値としてセットする
-- Default値は遅延初期化を行う
-- `initState()`メソッドを追加してDefault値の有無を確認する
-  - 何も渡されていなければIssueの追加として画面が呼び出されたので空を代入しておく
-- Default値がある場合はIssueタイトル、Issueボディに初期値として表示された状態にする
+- 引数として `named_parameter` に `id` , `title` , `body` を受け取るようにする
+- 受け取ったパラメータをデフォルト値としてセットする
+- デフォルト値は遅延初期化を行う
+-  `initState()` メソッドを追加してデフォルト値の有無を確認する
+  - 何も渡されていなければ Issue の追加として画面が呼び出されたので空を代入しておく
+- デフォルト値がある場合は Issue タイトル、 Issue ボディに初期値として表示された状態にする
 
 ## 5 章で目指すべきゴール
 

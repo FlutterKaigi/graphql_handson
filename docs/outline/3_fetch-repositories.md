@@ -40,7 +40,7 @@ GraphQL クエリを直接書いても、Explorer タブより「ぽちぽち」
 
 当章では Level 1 のリポジトリ一覧をフェッチできることを目指します。
 
-### リストを表示する大本のWidgetを作成する
+### リストを表示する大本のウィジェットを作成する
 
 今回のハンズオンでは、自身の GitHub アカウントに属しているリポジトリ、issue の一覧、issue の詳細情報を表示します。  
 
@@ -346,7 +346,7 @@ Future<List<Repository>?> fetchRepositories() async {
 
 まずは実際の通信状態 `snapshot.connectionState` を確認します。
 
-事前に作成した`IssueListPage`に組み込んでいきます。
+事前に作成した `IssueListPage` に組み込んでいきます。
 
 ```dart [lib/pages/index.dart]
 FutureBuilder<dynamic>(
@@ -436,8 +436,8 @@ return Center(
 
 結果として、こんな形でウィジェットに含めていくこととなります。
 
-最後に`main.dart`の`MyHomePage Class`に`IssueListPage`を組み込んでアプリケーションを起動してみましょう。  
-上手く動作すればGithubリポジトリの一覧を確認する事が出来るはずです。
+最後に `main.dart` の `MyHomePage Class` に `IssueListPage` を組み込んでアプリケーションを起動してみましょう。  
+上手く動作すれば Github リポジトリの一覧を確認する事が出来るはずです。
 
 ## 補足
 
