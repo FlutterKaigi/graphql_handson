@@ -40,11 +40,27 @@ GraphQL クエリを直接書いても、Explorer タブより「ぽちぽち」
 
 当章では Level 1 のリポジトリ一覧をフェッチできることを目指します。
 
+### リストを表示する大本のウィジェットを作成する
+
+今回のハンズオンでは、自身の GitHub アカウントに属しているリポジトリ、issue の一覧、issue の詳細情報を表示します。  
+
+まず初めにリスト表示するための画面を作りましょう。
+
+```dart [lib/pages/index.dart]
+class IssueListPage extends StatelessWidget {
+  const IssueListPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+```
+
 ### カードウィジェットを作成する
 
-今回のハンズオンでは、自身の GitHub アカウントに属しているリポジトリ、issue の一覧、issue の詳細情報を表示します。
-
-これを実現するため、事前にカードウィジェットを作成する必要があります。
+最終的に一覧表示させたいため、事前にカードウィジェットを作成する必要があります。
 
 - ID (`id`) <- issue を更新する時に限って使用する
 - タイトル (`title`)
@@ -67,6 +83,12 @@ class CardItem extends StatelessWidget {
   final String message;
   final String url;
   final String updatedAt;
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
 }
 ```
 
@@ -78,12 +100,36 @@ class CardItem extends StatelessWidget {
 Container(
   color: const Color(0xFFEFEFEF),
   child: Column(
+    mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
       //
     ],
   ),
 ),
+```
+
+
+次に、カード全体のレイアウトを整えます。  
+[`Directionality`](https://api.flutter.dev/flutter/intl/TextDirection-class.html) ウィジェットはテキストの表示方向を指定できます。  
+[`Card`](https://api.flutter.dev/flutter/material/Card-class.html) ウィジェットはマテリアルデザインとして定義されるカードコンポーネントとしての見た目を整えることが出来ます.  
+
+`Colors.white` は `const Color(0xFFEFEFEF)` と同一のものになります。
+
+```dart [lib/pages/index.dart]
+    Directionality(
+      textDirection: TextDirection.ltr,
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            //
+          ],
+        ),
+      ),
+    )
 ```
 
 カード内で、複数の情報を設定します。
@@ -300,6 +346,8 @@ Future<List<Repository>?> fetchRepositories() async {
 
 まずは実際の通信状態 `snapshot.connectionState` を確認します。
 
+事前に作成した `IssueListPage` に組み込んでいきます。
+
 ```dart [lib/pages/index.dart]
 FutureBuilder<dynamic>(
   future: fetchRepositories(),
@@ -315,7 +363,7 @@ FutureBuilder<dynamic>(
         return Center();
     }
   },
-),
+);
 ```
 
 通信が終了したことを踏まえて、実際のデータ `snapshot.data` の有無を確認します。
@@ -337,7 +385,7 @@ FutureBuilder<dynamic>(
     // 通信に成功し、無事にデータをフェッチできた場合
     return Center();
   },
-),
+);
 ```
 
 ここでのポイントは、通信状態による出し分けとなります。
@@ -361,7 +409,7 @@ return Center(
           }
 
           if (snapshot.data == null) {
-            return const Text('No issues');
+            return const Text('No repositories');
           }
 
           return ListView.builder(
@@ -381,12 +429,15 @@ return Center(
               },
             );
         },
-      },
+      }
     ),
   );
 ```
 
 結果として、こんな形でウィジェットに含めていくこととなります。
+
+最後に `main.dart` の `MyHomePage Class` に `IssueListPage` を組み込んでアプリケーションを起動してみましょう。  
+上手く動作すれば Github リポジトリの一覧を確認する事が出来るはずです。
 
 ## 補足
 
@@ -394,51 +445,3 @@ pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) �
 
 [@preview](https://pub.dev/packages/graphql_flutter)
 
-リポジトリ一覧をフェッチする場合も同じく、クエリ `repositoriesQuery` を使用します。
-
-```dart [lib/pages/index.dart]
-return Center(
-    child: Query(
-  options: QueryOptions(
-    document: gql(repositoriesQuery),
-    variables: const {
-      //
-    },
-    fetchPolicy: FetchPolicy.noCache,
-    cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-    pollInterval: const Duration(seconds: 10),
-  ),
-  builder: (QueryResult result,
-      {VoidCallback? refetch, FetchMore? fetchMore}) {
-    if (result.hasException) {
-      return Text(result.exception.toString());
-     }
-
-    if (result.isLoading) {
-      return const Text('Loading');
-    }
-
-    List? items = (result.data?['viewer']?['repositories']?['nodes']);
-
-    if (items == null) {
-      return const Text('No issues');
-    }
-
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: CardItem(
-              title: item['name'],
-              message: '',
-              url: item['url'] ?? '',
-              updatedAt: item['updatedAt'] ?? '',
-            ),
-          );
-        });
-  },
-));
-```

@@ -58,18 +58,23 @@ class _IssueInputState extends State<IssueInputPage> {
 
 まずは、フォーム全体のレイアウトを設計します。
 
-`Column` を使うことで `children` 配下に置かれたウィジェットを縦に並べられます。
+`Column` を使うことで `children` 配下に置かれたウィジェットを縦に並べられます。  
+`SingleChildScrollView` で `Column` を Wrap することでスクロールする可能になります。 (スクロール不可の状態で縦の画面サイズが足らないとエラーが発生して画面描画が出来ません) 
 
 ```dart [lib/pages/issue_info.dart]
-Container(
-  color: const Color(0xFFEFEFEF),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: <Widget>[
-      //
-    ],
-  ),
-),
+    Scaffold(
+      body: Container(
+        color: const Color(0xFFEFEFEF),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              //
+            ],
+          ),
+        ),
+      ),
+    );
 ```
 
 ### TextField (TextFormField) フォームを設計する
@@ -291,7 +296,7 @@ GraphQL クエリを直接、書いても問題ありません。
 const String createMutation = '''
   mutation () {
     createIssue(input: {
-      repositoryId: "R_kgDOGLUl6Q",
+      repositoryId: "ご自分のリポジトリIDに置き換えてください",
       title: "Test",
       body: "あああ"
     }) {
@@ -314,7 +319,7 @@ GraphQL では、フェッチ同様ポストする場面でも、入力する値
 const String createMutation = '''
   mutation (\$titleText: String!, \$bodyText: String!) {
     createIssue(input: {
-      repositoryId: "R_kgDOGLUl6Q",
+      repositoryId: "ご自分のリポジトリIDに置き換えてください",
       title: \$titleText,
       body: \$bodyText
     }) {
@@ -354,14 +359,13 @@ AppBar の `actions` に IconButton を設定します。
 
 ```dart [lib/main.dart]
 return Scaffold(
-  key: _scaffoldKey,
   appBar: AppBar(
     title: Text(_appTitle),
     actions: [
       // IconButton を設定する
     ],
   ),
-  body: const MyTopPage(),
+  body: const IssueInputPage(),
 );
 ```
 
@@ -385,6 +389,16 @@ IconButton(
 ),
 ```
 
+ここまで作成することが出来たらアプリケーションを起動して、動くか確認してみましょう。  
+上手くテキストを入力する事が出来れば、 Issue を追加することが出来るはずです。
+
+::: tip
+
+[`IconClass`](https://api.flutter.dev/flutter/material/Icons-class.html)には Flutter 側で Material Icons に即したアイコンを用意されています。 (今回は `Icons.add_circle_outline` を利用しました。)   
+[`GoogleFonts`](https://fonts.google.com/icons?selected=Material+Icons)でも使いたいアイコンを探すことが出来るのでぜひ利用してみてください。
+
+:::
+
 ## issue を更新する
 
 GitHub API の [`updateIssue`](https://docs.github.com/en/graphql/reference/mutations#updateissue) を利用します。
@@ -393,7 +407,7 @@ GitHub API の [`updateIssue`](https://docs.github.com/en/graphql/reference/muta
 const String updateMutation = '''
   mutation () {
     updateIssue(input: {
-      id: "I_kwDOGLUl6c5VjjjY",
+      id: "IssueのIDに置き換えます",
       title: "Test 2",
       body: "いいい"
     }) {
@@ -453,7 +467,9 @@ Future<void> updateIssue(
 }
 ```
 
-そして `pages/index.dart` で、いま作成した非同期関数 `updateIssue()` を読み込みます。
+ここからは Issue 更新用の導線をレイアウトに追加していきます。  
+`CardItemClass` で Issue の内容を表示していた `ColumnWidget` を `RowWidget` で Wrap してください。  
+Issue アイテムの右端に更新用のボタンを追加します。
 
 ```dart [lib/pages/index.dart]
 Card(
@@ -461,11 +477,46 @@ Card(
   child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      // IconButton を設定する
+      // Issueの中身
+      Flexible(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                title,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+            ),
+            Text(
+              message,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black87),
+            ),
+            Text(
+              updatedAt,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black87),
+            ),
+          ],
+        ),
+      ),
+      // IconButtonを設定する
     ],
   ),
 ),
 ```
+
+次に更新用 `IconButton` を追加します。ボタンをタップした際には `IssueInputPage` に遷移させます。
 
 issue を更新する際は、既に設定されている title や body に加え id も設定する必要があります。
 
@@ -490,9 +541,20 @@ IconButton(
 ),
 ```
 
+このままでは `IssueInputPage` が引数に id らのパラメータを受け取ることが出来ないため対応させる必要があります。  
+
+修正項目を列挙したので、完成形ソースコードを参照しながら Issue の更新が出来るように修正してみましょう。
+
+- 引数として `named_parameter` に `id` , `title` , `body` を受け取るようにする
+- 受け取ったパラメータをデフォルト値としてセットする
+- デフォルト値は遅延初期化を行う
+-  `initState()` メソッドを追加してデフォルト値の有無を確認する
+  - 何も渡されていなければ Issue の追加として画面が呼び出されたので空を代入しておく
+- デフォルト値がある場合は Issue タイトル、 Issue ボディに初期値として表示された状態にする
+
 ## 5 章で目指すべきゴール
 
-最終時点のソースコードを下に示します。
+完成形のソースコードを下に示します。
 
 ### カードウィジェットを作成する
 
