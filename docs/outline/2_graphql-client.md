@@ -166,3 +166,54 @@ final client = GraphQLClient(
 ```
 
 Apollo クライアントの要領で使用できます。
+
+最後にSampleのアプリに`AppProvider`を追加します。  
+また、`MyHomePageClass`を`StatelessWidget`に変更しましょう。
+
+
+この章での完成形は下記の形になります。
+
+```dart [lib/main.dart]
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initHiveForFlutter();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppProvider(
+      child: MaterialApp(
+        title: 'FlutterKaigi 2022',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(appTitle: 'FlutterKaigi 2022 Demo Home Page'),
+      ),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({
+    final Key? key,
+    required String appTitle,
+  })  : _appTitle = appTitle,
+        super(key: key);
+
+  final String _appTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_appTitle),
+      ),
+      body: Container(),
+    );
+  }
+}
+```
