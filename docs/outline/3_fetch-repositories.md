@@ -116,7 +116,7 @@ Container(
 
 `Colors.white` は `const Color(0xFFEFEFEF)` と同一のものになります。
 
-```dart
+```dart [lib/pages/index.dart]
     Directionality(
       textDirection: TextDirection.ltr,
       child: Card(
