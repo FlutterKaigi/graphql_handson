@@ -11,7 +11,7 @@
     "lint:fix": "textlint ./docs/** --fix"
   },
   "dependencies": {
-    "vitepress": "^1.0.0-alpha.13"
+    "vitepress": "^1.0.0-alpha.29"
   },
   "devDependencies": {
     "jsdom": "^20.0.0",
@@ -19,7 +19,7 @@
     "textlint": "^12.2.1",
     "textlint-rule-preset-nekohack-inc": "git+https://github.com/nekohack/textlint-rule-preset-nekohack-inc.git",
     "textlint-rule-spellcheck-tech-word": "^5.0.0",
-    "typescript": "^4.8.2",
+    "typescript": "^4.9.3",
     "xmlhttprequest": "^1.8.0"
   }
 }
