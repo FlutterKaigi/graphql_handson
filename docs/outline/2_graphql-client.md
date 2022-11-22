@@ -74,9 +74,8 @@ GraphQL フラグメントの処理に関して柔軟です。その詳細につ
 
 Flutter アプリ内で使う依存関係は、ルートの pubspec.yaml で管理します。
 
-[@preview](https://pub.dev/packages/graphql_flutter)
-
-[@preview](https://pub.dev/packages/graphql)
+- https://pub.dev/packages/graphql_flutter
+- https://pub.dev/packages/graphql
 
 今回の Flutter × GraphQL ハンズオンでは、graphql_flutter `v5.1.0` と graphql `v5.1.1` を使用します。
 
@@ -94,9 +93,7 @@ dependencies:
 
 GraphQL クライアントに graphql_flutter の使用が決まれば、実際にアプリ内で GraphQL を使用できるよう準備していきましょう。
 
-すると、ここで Hive について考慮する必要があります。
-
-[@preview](https://docs.hivedb.dev/)
+すると、ここで [Hive](https://docs.hivedb.dev/) について考慮する必要があります。
 
 GraphQL クライアントのキャッシュに Hive を使用しているため、それらの初期化を行います。
 
