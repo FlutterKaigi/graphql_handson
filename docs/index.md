@@ -34,11 +34,17 @@ HelloWorld アプリとして作成されるカウントアップアプリが出
 4. [issue 一覧をフェッチする](/outline/4_fetch-issues.md)
 5. [issue を追加、更新する](/outline/5_post-issue.md)
 
-## 配信動画一覧
+## 配信動画
 
 [FlutterKaigi YouTube](https://www.youtube.com/channel/UC1JP6dPBmmccZto4LNz9KMw) チャンネル登録よろしくお願いします！
 
-TBD
+[@preview](https://www.youtube.com/watch?v=I2Cw9z6vHzk)
+
+### リポジトリ
+
+最終的に [FlutterKaigi/_graphql_handson](https://github.com/FlutterKaigi/_graphql_handson) を目指していただきます。
+
+[@preview](https://github.com/FlutterKaigi/_graphql_handson)
 
 ## コントリビューター
 
