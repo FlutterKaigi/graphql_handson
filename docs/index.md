@@ -14,17 +14,15 @@
 
 ### 進め方
 
-::: tip 事前に参加者が構築します。
+[FlutterKaigi YouTube](https://www.youtube.com/channel/UC1JP6dPBmmccZto4LNz9KMw) チャンネル登録よろしくお願いします！
 
-参加予定の皆さまは [事前準備](https://github.com/FlutterKaigi/template_flutter/wiki) を済ませていただきたく思います。
+[@preview](https://www.youtube.com/watch?v=I2Cw9z6vHzk)
 
-[@preview](https://github.com/FlutterKaigi/template_flutter/wiki)
+#### リポジトリ
 
-HelloWorld アプリとして作成されるカウントアップアプリが出来上がったら OK です。もし不明な点がおありの方は [Discord](https://discord.com/invite/Nr7H8JTJSF) で事前に聞いていただけますと幸いです。
+最終的に [FlutterKaigi/_graphql_handson](https://github.com/FlutterKaigi/_graphql_handson) を目指していただきます。
 
-[@preview](https://discord.com/invite/Nr7H8JTJSF)
-
-:::
+[@preview](https://github.com/FlutterKaigi/_graphql_handson)
 
 ### アウトライン (予定)
 
@@ -33,18 +31,6 @@ HelloWorld アプリとして作成されるカウントアップアプリが出
 3. [リポジトリ一覧をフェッチする](/outline/3_fetch-repositories.md)
 4. [issue 一覧をフェッチする](/outline/4_fetch-issues.md)
 5. [issue を追加、更新する](/outline/5_post-issue.md)
-
-## 配信動画
-
-[FlutterKaigi YouTube](https://www.youtube.com/channel/UC1JP6dPBmmccZto4LNz9KMw) チャンネル登録よろしくお願いします！
-
-[@preview](https://www.youtube.com/watch?v=I2Cw9z6vHzk)
-
-### リポジトリ
-
-最終的に [FlutterKaigi/_graphql_handson](https://github.com/FlutterKaigi/_graphql_handson) を目指していただきます。
-
-[@preview](https://github.com/FlutterKaigi/_graphql_handson)
 
 ## コントリビューター
 
