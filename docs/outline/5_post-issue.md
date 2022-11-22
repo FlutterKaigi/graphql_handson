@@ -14,8 +14,6 @@ issue を追加、並びに更新するため、入力専用のフォームを�
 
 まず、フォームでは [StatefulWidget](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html) を利用します。
 
-[@preview](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
-
 ::: tip
 
 Flutter では StatelessWidget と StatefulWidget の 2 種類のウェジェットがあります。前者 (StatelessWidget) で扱う値は全てイミュータブル (不変) となり、プロパティを変更することはできません。
@@ -81,11 +79,7 @@ class _IssueInputState extends State<IssueInputPage> {
 
 続いて [`TextField`](https://api.flutter.dev/flutter/material/TextField-class.html) フォームを設計します。
 
-[@preview](https://api.flutter.dev/flutter/material/TextField-class.html)
-
 なお、似た API として [`TextFormField`](https://api.flutter.dev/flutter/material/TextFormField-class.html) は `TextField` を拡張しているため、同じように使用することができます。
-
-[@preview](https://api.flutter.dev/flutter/material/TextFormField-class.html)
 
 #### title を入力するフォーム
 
@@ -208,8 +202,6 @@ bool _isEnabled = false;
 ```
 
 issue を追加するため [`ElevatedButton`](https://api.flutter.dev/flutter/material/ElevatedButton-class.html) ボタンを使用します。
-
-[@preview](https://api.flutter.dev/flutter/material/ElevatedButton-class.html)
 
 API の実行に必要なものは下に示す通りとなります。
 
