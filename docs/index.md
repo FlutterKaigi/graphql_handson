@@ -56,3 +56,11 @@ HelloWorld アプリとして作成されるカウントアップアプリが出
 皆さま、コントリビュートいただきありがとうございます。
 
 また、誤りやより良い改善を見つけたという方は [Issues](https://github.com/FlutterKaigi/_graphql_handson/issues) または [Pull Request](https://github.com/FlutterKaigi/_graphql_handson/pulls) を作成していただければ幸いです。
+
+## 昨年のハンズオン
+
+Atomic Design をテーマにブログ風ウェブサイトを製作してきました。
+
+その詳細は下記ウェブサイトをご確認いただければ幸いです。
+
+- [FlutterKaigi 2021 ハンズオン](https://flutterkaigi-2021-workshop.netlify.app)
