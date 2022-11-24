@@ -22,8 +22,6 @@
 
 最終的に [FlutterKaigi/_graphql_handson](https://github.com/FlutterKaigi/_graphql_handson) を目指していただきます。
 
-[@preview](https://github.com/FlutterKaigi/_graphql_handson)
-
 ### アウトライン (予定)
 
 1. [Flutter で環境変数を取り扱う](/outline/1_environment-variables.md)
