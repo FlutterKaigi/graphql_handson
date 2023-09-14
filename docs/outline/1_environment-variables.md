@@ -26,8 +26,6 @@ GitHub API を手元のアプリで使うために、アカウントを取得す
 
 両者の違いについては [記事](https://techblog.kayac.com/github-apps-bot) を確認いただければ、大変分かりやすいと考えています。
 
-[@preview](https://techblog.kayac.com/github-apps-bot)
-
 今回は前者を利用させていただきますが、各自 GitHub の Developer Settings でトークンを作成します。
 
 こちらの Developer Settings より `Personal access tokens` から `Token(classic)` を選択します。

@@ -140,8 +140,6 @@ Container(
 
 続いて [`Text`](https://docs.flutter.dev/development/ui/widgets/text) ウィジェットを設計します。
 
-[@preview](https://docs.flutter.dev/development/ui/widgets/text)
-
 タイトル `title` を表示するため Text ウィジェットを利用します。
 
 
@@ -442,6 +440,3 @@ return Center(
 ## 補足
 
 pub.dev 公式の [graphql_flutter](https://pub.dev/packages/graphql_flutter) に則って [GraphQL Provider](https://pub.dev/packages/graphql_flutter#graphql-provider) を利用します。
-
-[@preview](https://pub.dev/packages/graphql_flutter)
-
